@@ -1,9 +1,33 @@
 services:
-    livelaunch:
-        build: .
-        container_name: livelaunch
-        env_file: .env
-        image: livelaunch
-        restart: always
-        volumes:
-            - ./livelaunch.log:/usr/src/app/livelaunch.log
+  postgres:
+    image: postgres:16-alpine
+    container_name: livelaunch-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: livelaunch
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-livelaunch}
+      POSTGRES_DB: livelaunch
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U livelaunch"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  livelaunch:
+    build: .
+    container_name: livelaunch
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://livelaunch:${DB_PASSWORD:-livelaunch}@postgres:5432/livelaunch
+    image: livelaunch
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

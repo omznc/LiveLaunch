@@ -1,15 +1,10 @@
-FROM python:3.12.7-alpine
-
-ENV PYTHONUNBUFFERED=1
+FROM oven/bun:latest
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY package.json bun.lockb* ./
+RUN bun install --frozen-lockfile
 
 COPY . .
 
-# Forward error logs to docker log collector
-RUN ln -sf /dev/stderr /usr/src/app/livelaunch.log
-
-CMD [ "python", "./main.py" ]
+CMD ["bun", "run", "start"]

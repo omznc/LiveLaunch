@@ -29,7 +29,7 @@ export async function handleEnable(interaction: ChatInputCommandInteraction): Pr
     return;
   }
 
-  const settings: any = {};
+  const settings: Record<string, string | number> = {};
 
   try {
     // Check bot permissions

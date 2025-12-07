@@ -167,6 +167,7 @@ export class LaunchLibrary2 {
     const maxNetStr = maxNet.toISOString();
 
     const url = `${this.baseUrl}/launches/upcoming/?limit=50&mode=detailed&net__lte=${maxNetStr}`;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const results = await this.makeRequest<any[]>(url);
 
     if (!results) return {};
@@ -221,6 +222,7 @@ export class LaunchLibrary2 {
     const maxNetStr = maxNet.toISOString();
 
     const url = `${this.baseUrl}/events/upcoming/?date__lte=${maxNetStr}&limit=50`;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const results = await this.makeRequest<any[]>(url);
 
     if (!results) return {};

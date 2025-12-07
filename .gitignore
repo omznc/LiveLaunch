@@ -116,3 +116,13 @@ dmypy.json
 # LiveLaunch specific
 LiveLaunchDatabase.drawio
 LiveLaunchDatabase.png
+
+# Node/Bun
+node_modules/
+.bun-cache/
+dist/
+*.log
+bun.lockb
+
+# TypeScript
+*.tsbuildinfo
